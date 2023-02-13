@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: local
   batch:
     job:
       names: ${job.name:NONE}
@@ -9,7 +11,7 @@ spring:
       on-profile: local
   datasource:
     url: jdbc:mysql://127.0.0.1:13306/house
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
   jpa:
