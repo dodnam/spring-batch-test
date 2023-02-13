@@ -1,7 +1,9 @@
 package com.nam.springbatchtest.job;
 
 import com.nam.springbatchtest.core.domain.PlainText;
+import com.nam.springbatchtest.core.domain.ResultText;
 import com.nam.springbatchtest.core.repository.PlainTextRepository;
+import com.nam.springbatchtest.core.repository.ResultTextRespository;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.batch.core.Job;
@@ -32,6 +34,7 @@ public class PlainTextJobConfig {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final PlainTextRepository plainTextRepository;
+    private final ResultTextRespository resultTextRespository;
 
     @Bean("plainTextJob")
     public Job plainTextJob(Step plainTextStep) {
@@ -78,7 +81,8 @@ public class PlainTextJobConfig {
     @Bean
     public ItemWriter<String> plainTextWriter() {
         return items -> {
-          items.forEach(System.out::println);
+          items.forEach(item -> resultTextRespository.save(
+                  new ResultText(null, item))); // item 각각에 대해 repository에서 save를 함
             System.out.println("==== chunk is finished ====");
         };
     }
